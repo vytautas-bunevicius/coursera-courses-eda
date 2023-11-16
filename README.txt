@@ -6,11 +6,11 @@ Setup Guide:
 
 - Clone the repository:
 
-            git clone https://github.com/TuringCollegeSubmissions/vbunev-DWWP.3/
+            git clone https://github.com/vytautas-bunevicius/CourseraEDA.git
 
 - Navigate to the repository directory:
 
-            cd vbunev-DWWP.3
+            cd CourseraEDA
 
 Run the following command to start the Jupyter Notebook:
 
