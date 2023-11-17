@@ -1,4 +1,4 @@
-Setup Guide:
+## Setup Guide:
 
 - Install the required Python packages using the following command:
 
@@ -22,7 +22,7 @@ Overview:
 
 - This exploratory data analysis (EDA) provides insights into the distribution of courses on Coursera, using data from the Coursera API. The analysis encompasses various data preprocessing steps, descriptive statistics, and visualizations to uncover patterns related to course ratings, student enrollments, and certificate types.
 
-Key Steps in the EDA
+## Key Steps in the EDA
 
 Data Cleaning:
 
