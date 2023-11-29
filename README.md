@@ -10,15 +10,15 @@ This exploratory data analysis (EDA) delves into the distribution of courses on 
 
             pip install -r requirements.txt
 
-Clone the Repository
+- Clone the Repository
 
             git clone https://github.com/vytautas-bunevicius/CourseraEDA.git
 
-Navigate to Repository Directory
+- Navigate to Repository Directory
 
             cd CourseraEDA
 
-Launch Jupyter Notebook
+- Launch Jupyter Notebook
 
             jupyter notebook
 
