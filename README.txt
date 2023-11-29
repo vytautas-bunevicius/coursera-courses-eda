@@ -1,89 +1,64 @@
-## Coursera EDA: An Exploratory Data Analysis of Coursera Courses
+# Spotify Top 50 Tracks of 2020 Analysis
 
-### Overview
+## Project Overview:
+This project analyzes the Spotify Top 50 Tracks of 2020 dataset to derive insights into popular tracks, artists, genres, and various features. The analysis includes exploratory data analysis  to answer specific questions about the dataset.
 
-This exploratory data analysis (EDA) delves into the distribution of courses on Coursera, utilizing data from the Coursera API. The analysis encompasses various data preprocessing steps, descriptive statistics, and visualizations to uncover patterns related to course ratings, student enrollments, and certificate types.
+## Instructions:
 
-### Setup Guide
+- Install the required Python packages using the following command:
 
-#### Install Required Packages
+            pip install -r requirements.txt
 
-```bash
-pip install -r requirements.txt
+- Clone the repository:
 
-Clone the Repository
+            git clone https://github.com/vytautas-bunevicius/Spotify50.git
 
-git clone [https://github.com/vytautas-bunevicius/CourseraEDA.git](https://github.com/vytautas-bunevicius/CourseraEDA.git)
+- Navigate to the repository directory:
 
-Navigate to Repository Directory
+            cd Spotify50
 
-cd CourseraEDA
+Run the following command to start the Jupyter Notebook:
 
-Launch Jupyter Notebook
+            jupyter notebook
 
-jupyter notebook
+Open the Spotify50.ipynb notebook and start exploring the data.
 
+## Exploratory Data Analysis:
+The Jupyter Notebook contains a comprehensive analysis addressing the following questions:
 
-#### Explore the Data
+- How many observations are there in this dataset?
+- How many features does this dataset have?
+- Which features are categorical? Which are numeric?
+- Are there any artists with more than 1 popular track? If yes, which and how many?
+- Who is the most popular artist?
+- How many artists, in total, have their songs in the top 50?
+- Are there any albums with more than 1 popular track? If yes, which and how many?
+- How many albums, in total, have their songs in the top 50?
+- Which tracks have a danceability score above 0.7?
+- Which tracks have a danceability score below 0.4?
+- Which tracks have their loudness above -5?
+- Which tracks have their loudness below -8?
+- Which track is the longest?
+- Which track is the shortest?
+- Which genre is the most popular?
+- Which genres have just one song on the top 50?
+- How many genres in total are represented in the top 50?
+- Which features are strongly positively correlated?
+- Which features are strongly negatively correlated?
+- Which features are not correlated?
 
-Open the `CourseraEDA.ipynb` notebook and embark on your data exploration journey.
+## Results Overview:
+Here is a brief summary of key findings:
 
-### Key Steps in the EDA
+- Total observations: 50
+- Total features: 16 
+- Most popular artists: Dua Lipa, Travis Scott, Billie Eilish
+- Longest track: SICKO MODE
+- Features that do not correlate: There are no features that do not correlate.
 
-#### Data Cleaning
+For detailed answers, refer to the Spotify50.ipynb notebook.
 
-Removed unnecessary "Unnamed: 0" feature for dataset cleanliness.
-Standardized feature names to lowercase for consistency.
-Detected and removed duplicate rows and columns.
-Imputed missing values with the mean of the corresponding feature.
-Identified and eliminated duplicate rows and columns by comparing unique values of each feature.
-
-#### Data Types and Categorical Features
-
-Verified feature types and converted categorical features labeled as 'objects' to the categorical data type for improved efficiency.
-Transformed object-type features to numeric type, handling abbreviations for thousands ('k') and millions ('m’) using regular expressions.
-
-#### Descriptive Statistics
-
-Analyzed average course ratings, average number of students enrolled, and other descriptive statistics.
-Investigated the distribution of numerical features such as course ratings and student enrollments using histograms.
-
-#### Outliers Detection
-
-Employed the IQR method to identify outliers in course ratings and student enrollments.
-Visualized outliers through box plots, highlighting the natural skewness in the distribution.
-
-#### Correlation Analysis
-
-Investigated the correlation between course ratings and students enrolled.
-Uncovered a weak positive correlation, emphasizing the importance of avoiding causal inferences using a heatmap visualization.
-
-#### Top and Bottom Courses
-
-Identified the course with the highest and lowest enrollments, examining their ratings.
-Highlighted popular courses like "Machine Learning" and niche courses like "El Abogado del Futuro" using bar charts.
-
-#### Certificate Type Analysis
-
-Explored the prevalence of different certificate types (COURSE, PROFESSIONAL CERTIFICATE, SPECIALIZATION).
-Noted the popularity of COURSE and SPECIALIZATION certificates using a pie chart.
-
-#### Difficulty Distribution
-
-Analyzed the distribution of course difficulties (Beginner, Intermediate, Advanced, Mixed).
-Recognized the dominance of Beginner and Intermediate levels using a bar chart.
-
-#### Organization Enrollment Analysis
-
-Utilized statistical measures to summarize enrollments for each organization.
-Identified organizations with consistently high enrollments using a table.
-
-#### Certificate Type and Difficulty Relationship
-
-Created a contingency table showing the distribution of course difficulty levels by certificate type.
-Observed patterns in certificate types and difficulty levels using a heatmap visualization.
-
-### Conclusion
+**Note:** For a detailed analysis and answers to specific questions, please refer to the Jupyter Notebook.
 
 This EDA provides comprehensive insights into Coursera's course distribution, shedding light on learner preferences, popular courses, and certificate trends. It emphasizes the importance of data preprocessing, acknowledges skewness in distributions, and explores relationships between key features.
 
