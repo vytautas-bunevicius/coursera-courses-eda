@@ -1,82 +1,89 @@
-## Setup Guide:
+## Coursera EDA: An Exploratory Data Analysis of Coursera Courses
 
-- Install the required Python packages using the following command:
+### Overview
 
-            pip install -r requirements.txt
+This exploratory data analysis (EDA) delves into the distribution of courses on Coursera, utilizing data from the Coursera API. The analysis encompasses various data preprocessing steps, descriptive statistics, and visualizations to uncover patterns related to course ratings, student enrollments, and certificate types.
 
-- Clone the repository:
+### Setup Guide
 
-            git clone https://github.com/vytautas-bunevicius/CourseraEDA.git
+#### Install Required Packages
 
-- Navigate to the repository directory:
+```bash
+pip install -r requirements.txt
 
-            cd CourseraEDA
+Clone the Repository
 
-Run the following command to start the Jupyter Notebook:
+git clone [https://github.com/vytautas-bunevicius/CourseraEDA.git](https://github.com/vytautas-bunevicius/CourseraEDA.git)
 
-            jupyter notebook
+Navigate to Repository Directory
 
-Open the CourseraEDA.ipynb notebook and start exploring the data.
+cd CourseraEDA
 
-Overview:
+Launch Jupyter Notebook
 
-- This exploratory data analysis (EDA) provides insights into the distribution of courses on Coursera, using data from the Coursera API. The analysis encompasses various data preprocessing steps, descriptive statistics, and visualizations to uncover patterns related to course ratings, student enrollments, and certificate types.
+jupyter notebook
 
-## Key Steps in the EDA
 
-Data Cleaning:
+#### Explore the Data
 
-- Dropped unnecessary "Unnamed: 0" feature for dataset cleanliness.
-- Changed feature names to lowercase for consistency.
-- Checked for and removed duplicate rows and columns.
-- Handled missing values by imputing them with the mean of the corresponding feature.
-- Identified and removed duplicate rows and columns by comparing the unique values of each feature.
+Open the `CourseraEDA.ipynb` notebook and embark on your data exploration journey.
 
-Data Types and Categorical Features:
+### Key Steps in the EDA
 
-- Checked feature types and converted categorical features labeled as 'objects' to the categorical data type for efficiency.
-- Transformed object-type features to numeric type, handling abbreviations for thousands ('k') and millions ('m’) using regular expressions.
+#### Data Cleaning
 
-Descriptive Statistics:
+Removed unnecessary "Unnamed: 0" feature for dataset cleanliness.
+Standardized feature names to lowercase for consistency.
+Detected and removed duplicate rows and columns.
+Imputed missing values with the mean of the corresponding feature.
+Identified and eliminated duplicate rows and columns by comparing unique values of each feature.
 
-- Examined average course ratings, average number of students enrolled, and other descriptive statistics.
-- Investigated the distribution of numerical features such as course ratings and student enrollments using histograms.
+#### Data Types and Categorical Features
 
-Outliers Detection:
+Verified feature types and converted categorical features labeled as 'objects' to the categorical data type for improved efficiency.
+Transformed object-type features to numeric type, handling abbreviations for thousands ('k') and millions ('m’) using regular expressions.
 
-- Used the IQR method to identify outliers in course ratings and student enrollments.
-- Visualized outliers through box plots, highlighting the natural skewness in the distribution.
+#### Descriptive Statistics
 
-Correlation Analysis:
+Analyzed average course ratings, average number of students enrolled, and other descriptive statistics.
+Investigated the distribution of numerical features such as course ratings and student enrollments using histograms.
 
-- Checked the correlation between course ratings and students enrolled.
-- Identified a weak positive correlation, emphasizing the importance of not inferring causation using a heatmap visualization.
+#### Outliers Detection
 
-Top and Bottom Courses:
+Employed the IQR method to identify outliers in course ratings and student enrollments.
+Visualized outliers through box plots, highlighting the natural skewness in the distribution.
 
-- Identified the course with the most and fewest enrollments, examining their ratings.
-- Highlighted popular courses like "Machine Learning" and niche courses like "El Abogado del Futuro" using bar charts.
+#### Correlation Analysis
 
-Certificate Type Analysis:
+Investigated the correlation between course ratings and students enrolled.
+Uncovered a weak positive correlation, emphasizing the importance of avoiding causal inferences using a heatmap visualization.
 
-- Explored the dominance of different certificate types (COURSE, PROFESSIONAL CERTIFICATE, SPECIALIZATION).
-- Noted the popularity of COURSE and SPECIALIZATION certificates using a pie chart.
+#### Top and Bottom Courses
 
-Difficulty Distribution:
+Identified the course with the highest and lowest enrollments, examining their ratings.
+Highlighted popular courses like "Machine Learning" and niche courses like "El Abogado del Futuro" using bar charts.
 
-- Analyzed the distribution of course difficulties (Beginner, Intermediate, Advanced, Mixed).
-- Recognized the prevalence of Beginner and Intermediate levels using a bar chart.
+#### Certificate Type Analysis
 
-Organization Enrollment Analysis:
+Explored the prevalence of different certificate types (COURSE, PROFESSIONAL CERTIFICATE, SPECIALIZATION).
+Noted the popularity of COURSE and SPECIALIZATION certificates using a pie chart.
 
-- Utilized statistical measures to summarize enrollments for each organization.
-- Identified organizations with consistently high enrollments using a table.
+#### Difficulty Distribution
 
-Certificate Type and Difficulty Relationship:
+Analyzed the distribution of course difficulties (Beginner, Intermediate, Advanced, Mixed).
+Recognized the dominance of Beginner and Intermediate levels using a bar chart.
 
-- Created a contingency table showing the distribution of course difficulty levels by certificate type.
-- Observed patterns in certificate types and difficulty levels using a heatmap visualization.
+#### Organization Enrollment Analysis
 
-Conclusion:
+Utilized statistical measures to summarize enrollments for each organization.
+Identified organizations with consistently high enrollments using a table.
 
-- The EDA provides comprehensive insights into Coursera's course distribution, highlighting learner preferences, popular courses, and certificate trends. It emphasizes the importance of data preprocessing, acknowledges skewness in distributions, and explores relationships between key features.
+#### Certificate Type and Difficulty Relationship
+
+Created a contingency table showing the distribution of course difficulty levels by certificate type.
+Observed patterns in certificate types and difficulty levels using a heatmap visualization.
+
+### Conclusion
+
+This EDA provides comprehensive insights into Coursera's course distribution, shedding light on learner preferences, popular courses, and certificate trends. It emphasizes the importance of data preprocessing, acknowledges skewness in distributions, and explores relationships between key features.
+
