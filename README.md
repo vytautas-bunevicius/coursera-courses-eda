@@ -12,11 +12,11 @@ This exploratory data analysis (EDA) delves into the distribution of courses on 
 
 - Clone the Repository
 
-            git clone https://github.com/vytautas-bunevicius/CourseraEDA.git
+            git clone https://github.com/vytautas-bunevicius/coursera-courses-eda.git
 
 - Navigate to Repository Directory
 
-            cd CourseraEDA
+            cd coursera-courses-eda
 
 - Launch Jupyter Notebook
 
