@@ -6,10 +6,6 @@ This exploratory data analysis (EDA) delves into the distribution of courses on 
 
 ## Setup Guide
 
-- Install the required Python packages using the following command:
-
-            pip install -r requirements.txt
-
 - Clone the Repository
 
             git clone https://github.com/vytautas-bunevicius/coursera-courses-eda.git
@@ -17,6 +13,10 @@ This exploratory data analysis (EDA) delves into the distribution of courses on 
 - Navigate to Repository Directory
 
             cd coursera-courses-eda
+  
+- Install the required Python packages using the following command:
+
+            pip install -r requirements.txt
 
 - Launch Jupyter Notebook
 
