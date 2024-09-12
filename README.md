@@ -19,7 +19,7 @@ This exploratory data analysis (EDA) delves into the distribution of courses on 
     ```
     pip install -r requirements.txt
     ```
-4 **Launch Jupyter Notebook**
+4. **Launch Jupyter Notebook**
     ```
     jupyter notebook
     ```
