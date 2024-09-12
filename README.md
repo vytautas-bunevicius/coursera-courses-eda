@@ -26,7 +26,7 @@ This exploratory data analysis (EDA) delves into the distribution of courses on 
 
 #### Explore the Data
 
-Open the `CourseraEDA.ipynb` notebook and embark on your data exploration journey.
+Open the `coursera_courses.ipynb` notebook and embark on your data exploration journey.
 
 ### Key Steps in the EDA
 
