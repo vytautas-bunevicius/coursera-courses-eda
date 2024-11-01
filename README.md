@@ -16,7 +16,6 @@
   - [3. Install Dependencies](#3-install-dependencies)
   - [4. Launch Jupyter Notebook](#4-launch-jupyter-notebook)
   - [5. Access the Analysis](#5-access-the-analysis)
-- [Project Structure](#project-structure)
 - [Analysis Components](#analysis-components)
   - [Data Preprocessing](#data-preprocessing)
   - [Exploratory Analysis](#exploratory-analysis)
@@ -91,20 +90,6 @@ jupyter notebook
 ### 5. Access the Analysis
 
 Open the `coursera_courses.ipynb` notebook in your browser to begin exploring the data.
-
-## Project Structure
-
-```
-coursera-courses-eda/
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── data/
-│   └── coursera_courses.csv
-├── notebooks/
-│   └── coursera_courses.ipynb
-└── venv/                      # Virtual environment directory
-```
 
 ## Analysis Components
 
