@@ -76,8 +76,6 @@ Use `pip` to install the required packages:
 pip install -e .
 ```
 
-> **Note:** Ensure that your `pyproject.toml` is properly configured to include all necessary dependencies for `pip` to install.
-
 ### 4. Launch Jupyter Notebook
 
 Start Jupyter Notebook within your activated virtual environment:
