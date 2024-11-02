@@ -1,8 +1,74 @@
-"""Utility module for loading Coursera course data.
+"""Coursera Course Data Utilities.
 
-This module provides functions to load and manage Coursera course data from CSV
-files, ensuring compatibility across different operating systems and project
-structures.
+A suite of utility functions for loading, processing, and visualizing Coursera course data.
+Facilitates exploratory data analysis (EDA) by providing seamless data handling across
+different operating systems and project structures.
+
+Dependencies:
+    - pandas>=1.2.0
+    - matplotlib>=3.3.0
+    - seaborn>=0.11.0
+    - pathlib
+    - os
+    - typing
+
+Attributes:
+    BACKGROUND_COLOR (str): Background color of the plots.
+    PRIMARY_COLORS (list[str]): List of primary colors used in plots.
+    PRIMARY_COLOR (str): Primary color used for plot elements.
+    SECONDARY_COLOR (str): Secondary color used for plot elements.
+    ACCENT_COLOR (str): Accent color used in plots.
+    OUTLIER_COLOR (str): Color used to highlight outliers.
+    FIGURE_SIZE (tuple[int, int]): Default figure size for plots.
+    TITLE_FONT_SIZE (int): Font size for plot titles.
+    TICK_FONT_SIZE (int): Font size for tick labels.
+    AXIS_FONT_SIZE (int): Font size for axis labels.
+    TITLE_PADDING (int): Padding for plot titles.
+    GRID_ALPHA (float): Alpha value for grid lines.
+    SPINE_WIDTH (float): Width of plot spines.
+    DEFAULT_BINS (int): Default number of bins for histograms.
+    SWARM_DOT_SIZE (int): Default dot size for swarm plots.
+    ANNOTATION_DECIMAL_PLACES (int): Decimal places for annotations.
+    GRID_WIDTH (float): Width of grid lines.
+    ROTATION_ANGLE (int): Rotation angle for x-axis labels.
+    BAR_LABEL_PADDING (int): Padding for bar labels.
+    TOP_N (int): Default number of top items to display.
+    BAR_WIDTH (float): Width of bars in bar charts.
+
+Functions:
+    load_coursera_data: Load Coursera course data from a CSV file.
+    convert_students_enrolled: Convert enrollment numbers to integers.
+    plot_rating_distribution: Create a histogram of course ratings.
+    detect_and_print_outliers_iqr: Identify outliers using IQR method.
+    plot_enrollment_distribution: Plot student enrollment distribution.
+    plot_rating_box_swarm: Generate box and swarm plot for ratings.
+    plot_enrollment_box_swarm: Generate box and swarm plot for enrollments.
+    create_custom_colormap: Create custom colormap from primary colors.
+    plot_correlation_heatmap: Visualize correlation matrix.
+    plot_top_organizations: Display bar chart of top organizations.
+    plot_category_distribution: Show distribution of categories.
+    plot_ratings_by_category: Compare ratings across categories.
+    plot_organization_heatmap: Visualize organizations by enrollments.
+    plot_certificate_difficulty_heatmap: Show certificate/difficulty relations.
+
+Example:
+    >>> from coursera_courses_eda.utils import load_coursera_data
+    >>> df = load_coursera_data()
+    >>> df['course_students_enrolled'] = df['course_students_enrolled'].apply(
+    ...     convert_students_enrolled
+    ... )
+    >>> fig, ax = plot_rating_distribution(df['course_rating'])
+    >>> plt.show()
+
+Notes:
+    The module expects a specific project structure:
+    coursera-courses-eda/
+    ├── data/
+    │   └── coursera_data.csv
+    ├── notebooks/
+    └── src/
+        └── coursera_courses_eda/
+            └── utils.py
 """
 
 import os
@@ -26,7 +92,6 @@ TITLE_FONT_SIZE = 12
 TICK_FONT_SIZE = 12
 AXIS_FONT_SIZE = 14
 TITLE_PADDING = 15
-AXIS_FONT_SIZE = 10
 GRID_ALPHA = 0.7
 SPINE_WIDTH = 1
 DEFAULT_BINS = 20
@@ -123,15 +188,14 @@ def load_coursera_data(
 def convert_students_enrolled(value: str) -> int:
     """Converts enrollment numbers from string to integer.
 
-    This function takes a string representing enrollment numbers, which may
-    contain suffixes 'k' for thousands or 'm' for millions, and converts it
-    into an integer.
-
     Args:
         value: The enrollment number as a string, possibly containing 'k' or 'm'.
 
     Returns:
         The enrollment number as an integer.
+
+    Raises:
+        ValueError: If the input is invalid (empty, negative, or malformed).
 
     Examples:
         >>> convert_students_enrolled('1.5k')
@@ -141,12 +205,30 @@ def convert_students_enrolled(value: str) -> int:
         >>> convert_students_enrolled('500')
         500
     """
-    if "k" in value:
-        return int(float(value.replace("k", "")) * 1_000)
-    elif "m" in value:
-        return int(float(value.replace("m", "")) * 1_000_000)
-    else:
-        return int(value)
+    try:
+        value = value.strip().lower()
+        if not value:
+            raise ValueError("Empty value")
+
+        if value.startswith('-'):
+            raise ValueError("Negative enrollment numbers are not valid")
+
+        if 'k' in value:
+            multiplier = 1_000
+            number = float(value.replace('k', ''))
+        elif 'm' in value:
+            multiplier = 1_000_000
+            number = float(value.replace('m', ''))
+        else:
+            multiplier = 1
+            number = float(value)
+
+        result = int(number * multiplier)
+        if result < 0:
+            raise ValueError("Negative enrollment numbers are not valid")
+        return result
+    except (ValueError, AttributeError) as e:
+        raise ValueError(f"Invalid enrollment format: {value}") from e
 
 
 def plot_rating_distribution(
@@ -198,35 +280,58 @@ def plot_rating_distribution(
 
 
 def detect_and_print_outliers_iqr(data: pd.DataFrame, feature: str) -> None:
-    """Detects and prints outliers in a DataFrame column using the IQR method.
-
-    This function calculates outliers using the Interquartile Range (IQR) method.
-    Values are considered outliers if they fall below Q1 - 1.5*IQR or above
-    Q3 + 1.5*IQR, where Q1 and Q3 are the first and third quartiles respectively.
+    """
+    Detect and print outliers in a DataFrame column using the IQR method.
 
     Args:
-        data: A pandas DataFrame containing the data to analyze.
-        feature: The name of the column to check for outliers.
-
-    Returns:
-        None. Prints the outliers found in the specified feature.
+        data (pd.DataFrame):
+            The DataFrame containing the data to analyze.
+        feature (str):
+            The name of the column to check for outliers.
 
     Raises:
-        KeyError: If the specified feature is not found in the DataFrame.
-        TypeError: If the feature contains non-numeric data.
+        KeyError:
+            If the specified feature is not found in the DataFrame.
+        TypeError:
+            If the feature contains non-numeric data.
+
+    Example:
+        >>> df = pd.DataFrame({'values': [1, 2, 100, 3, 4, 5]})
+        >>> detect_and_print_outliers_iqr(df, 'values')
+        Potential outliers for 'values':
+              values
+        2      100
     """
-    first_quartile = data[feature].quantile(0.25)
-    third_quartile = data[feature].quantile(0.75)
-    interquartile_range = third_quartile - first_quartile
+    if feature not in data.columns:
+        raise KeyError(f"Column '{feature}' not found in DataFrame")
 
-    lower_bound = first_quartile - 1.5 * interquartile_range
-    upper_bound = third_quartile + 1.5 * interquartile_range
+    try:
+        if not pd.api.types.is_numeric_dtype(data[feature]):
+            raise TypeError(f"Column '{feature}' must contain numeric data")
 
-    # Find outliers
-    outliers = data[(data[feature] < lower_bound) | (data[feature] > upper_bound)]
+        numeric_data = pd.to_numeric(data[feature])
 
-    print(f"Potential outliers for {feature}:\n")
-    print(outliers)
+        first_quartile = numeric_data.quantile(0.25)
+        third_quartile = numeric_data.quantile(0.75)
+        interquartile_range = third_quartile - first_quartile
+
+        lower_bound = first_quartile - 1.5 * interquartile_range
+        upper_bound = third_quartile + 1.5 * interquartile_range
+
+        outliers = data[(numeric_data < lower_bound) | (numeric_data > upper_bound)]
+
+        print(f"Potential outliers for '{feature}':\n")
+        with pd.option_context(
+            'display.max_rows', None,
+            'display.max_columns', None,
+            'display.precision', ANNOTATION_DECIMAL_PLACES,
+            'display.float_format', lambda x: f'{x:,.0f}' if abs(x) >= 1000 else f'{x:.2f}'
+        ):
+            print(outliers)
+
+    except (ValueError, TypeError):
+        raise TypeError(f"Column '{feature}' must contain numeric data")
+
 
 
 def plot_enrollment_distribution(
@@ -451,8 +556,12 @@ def plot_enrollment_box_swarm(
     return fig, ax
 
 
-def create_custom_colormap():
-    """Creates a custom colormap from PRIMARY_COLORS."""
+def create_custom_colormap() -> LinearSegmentedColormap:
+    """Creates a custom colormap from PRIMARY_COLORS.
+
+    Returns:
+        matplotlib.colors.LinearSegmentedColormap: Custom colormap for visualizations
+    """
     return LinearSegmentedColormap.from_list("custom", PRIMARY_COLORS)
 
 

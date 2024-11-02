@@ -6,6 +6,10 @@ authors = ["Vytautas Bunevičius"]
 readme = "README.md"
 license = "Unlicense"
 
+packages = [
+    { include = "coursera_courses_eda", from = "src" }
+]
+
 [tool.poetry.dependencies]
 python = "^3.12"
 appnope = "0.1.4"
