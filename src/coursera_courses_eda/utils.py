@@ -197,6 +197,38 @@ def plot_rating_distribution(
     return fig, ax
 
 
+def detect_and_print_outliers_iqr(data: pd.DataFrame, feature: str) -> None:
+    """Detects and prints outliers in a DataFrame column using the IQR method.
+
+    This function calculates outliers using the Interquartile Range (IQR) method.
+    Values are considered outliers if they fall below Q1 - 1.5*IQR or above
+    Q3 + 1.5*IQR, where Q1 and Q3 are the first and third quartiles respectively.
+
+    Args:
+        data: A pandas DataFrame containing the data to analyze.
+        feature: The name of the column to check for outliers.
+
+    Returns:
+        None. Prints the outliers found in the specified feature.
+
+    Raises:
+        KeyError: If the specified feature is not found in the DataFrame.
+        TypeError: If the feature contains non-numeric data.
+    """
+    first_quartile = data[feature].quantile(0.25)
+    third_quartile = data[feature].quantile(0.75)
+    interquartile_range = third_quartile - first_quartile
+
+    lower_bound = first_quartile - 1.5 * interquartile_range
+    upper_bound = third_quartile + 1.5 * interquartile_range
+
+    # Find outliers
+    outliers = data[(data[feature] < lower_bound) | (data[feature] > upper_bound)]
+
+    print(f"Potential outliers for {feature}:\n")
+    print(outliers)
+
+
 def plot_enrollment_distribution(
     data: pd.Series,
     title: Optional[str] = None,
