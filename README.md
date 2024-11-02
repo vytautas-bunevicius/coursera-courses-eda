@@ -14,8 +14,6 @@
   - [1. Clone the Repository](#1-clone-the-repository)
   - [2. Set Up Virtual Environment](#2-set-up-virtual-environment)
   - [3. Install Dependencies](#3-install-dependencies)
-    - [Using Pip](#using-pip)
-    - [Using Poetry (Optional)](#using-poetry-optional)
   - [4. Launch Jupyter Notebook](#4-launch-jupyter-notebook)
   - [5. Access the Analysis](#5-access-the-analysis)
 - [Analysis Components](#analysis-components)
@@ -42,7 +40,6 @@ The **Coursera EDA** project conducts an in-depth Exploratory Data Analysis of C
 - **Python**: Version 3.12 or higher
 - **Git**: For cloning the repository
 - **Pip**: Package installer for Python
-- **(Optional) Poetry**: For dependency management
 
 ## Installation Guide
 
@@ -73,76 +70,20 @@ source venv/bin/activate
 
 ### 3. Install Dependencies
 
-You have two options to install dependencies: using **pip** or **Poetry**.
+Use `pip` to install the required packages:
 
-#### Using Pip
+```bash
+pip install -e .
+```
 
-1. **Generate `requirements.txt` (Optional)**
-
-   If you prefer using `pip`, it's helpful to generate a `requirements.txt` file from your `pyproject.toml`. This ensures that all dependencies are accurately captured.
-
-   ```bash
-   # Ensure Poetry is installed
-   pip install poetry
-
-   # Export dependencies to requirements.txt
-   poetry export -f requirements.txt --output requirements.txt
-   ```
-
-2. **Install Dependencies**
-
-   Use `pip` to install the required packages:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-   Alternatively, you can install the package in editable mode directly:
-
-   ```bash
-   pip install -e .
-   ```
-
-   > **Note:** Ensure that your `pyproject.toml` includes the necessary metadata for `pip` to recognize the package. Poetry typically handles this, but double-check if you encounter issues.
-
-#### Using Poetry (Optional)
-
-If you prefer to continue using Poetry for dependency management and environment handling, follow these steps:
-
-1. **Install Poetry**
-
-   If you don't have Poetry installed, you can install it using the following command:
-
-   ```bash
-   # Using the official installer
-   curl -sSL https://install.python-poetry.org | python3 -
-
-   # After installation, ensure Poetry is added to your PATH
-   export PATH="$HOME/.local/bin:$PATH"
-   ```
-
-   For more installation options and troubleshooting, refer to the [Poetry documentation](https://python-poetry.org/docs/#installation).
-
-2. **Install Dependencies**
-
-   Use Poetry to install the required dependencies and set up the virtual environment:
-
-   ```bash
-   poetry install
-   ```
-
-   This command will create a virtual environment (if not already created) and install all the dependencies specified in `pyproject.toml`.
+> **Note:** Ensure that your `pyproject.toml` is properly configured to include all necessary dependencies for `pip` to install.
 
 ### 4. Launch Jupyter Notebook
 
 Start Jupyter Notebook within your activated virtual environment:
 
 ```bash
-# If installed via Pip
 jupyter notebook
-
-# If using Poetry
-poetry run jupyter notebook
 ```
 
 ### 5. Access the Analysis
@@ -214,3 +155,7 @@ To utilize this project for your own analysis:
 1. **Data Retrieval**: Update the `coursera_courses.csv` with the latest data from the Coursera API.
 2. **Customization**: Modify the Jupyter Notebook (`coursera_courses.ipynb`) to include additional analyses or visualizations as needed.
 3. **Visualization**: Use the existing visualization templates to create new charts or graphs relevant to your interests.
+
+## License
+
+This project is licensed under the [Unlicense](LICENSE).

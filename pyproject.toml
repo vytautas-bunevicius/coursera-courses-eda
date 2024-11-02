@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Vytautas Bunevičius"]
 readme = "README.md"
+license = "Unlicense"
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -50,7 +51,6 @@ traitlets = "5.14.3"
 tzdata = "2024.2"
 wcwidth = "0.2.13"
 wheel = "0.44.0"
-
 
 [build-system]
 requires = ["poetry-core"]
