@@ -329,8 +329,8 @@ def detect_and_print_outliers_iqr(data: pd.DataFrame, feature: str) -> None:
         ):
             print(outliers)
 
-    except (ValueError, TypeError):
-        raise TypeError(f"Column '{feature}' must contain numeric data")
+    except (ValueError, TypeError) as exc:
+        raise TypeError(f"Column '{feature}' must contain numeric data") from exc
 
 
 

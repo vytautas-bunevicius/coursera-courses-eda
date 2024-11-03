@@ -3,7 +3,8 @@ Tests for Coursera Courses EDA Utility Functions
 
 This module contains unit tests for the utility functions used in the Coursera
 courses exploratory data analysis (EDA) project. The tests cover data loading,
-processing, and visualization functionalities to ensure reliability and correctness.
+processing, and visualization functionalities to ensure reliability and
+correctness.
 
 Dependencies:
     - pytest>=6.0.0
@@ -15,34 +16,45 @@ Dependencies:
 
 Fixtures:
     - sample_csv_content: Provides sample CSV content for testing data loading.
-    - sample_dataframe: Creates a sample DataFrame for testing data processing and visualization.
+    - sample_dataframe: Creates a sample DataFrame for testing data processing and
+      visualization.
 
 Test Cases:
-    - test_convert_students_enrolled: Validates the conversion of enrollment numbers.
-    - test_convert_students_enrolled_invalid: Checks handling of invalid enrollment formats.
-    - test_load_coursera_data_default_path: Tests loading data from the default file path.
-    - test_load_coursera_data_file_not_found: Ensures proper error when the file is missing.
-    - test_load_coursera_data_read_exception: Verifies error handling during file read failures.
+    - test_convert_students_enrolled: Validates the conversion of enrollment
+      numbers.
+    - test_convert_students_enrolled_invalid: Checks handling of invalid
+      enrollment formats.
+    - test_load_coursera_data_default_path: Tests loading data from the default
+      file path.
+    - test_load_coursera_data_file_not_found: Ensures proper error when the file
+      is missing.
+    - test_load_coursera_data_read_exception: Verifies error handling during file
+      read failures.
     - test_detect_and_print_outliers_iqr: Tests outlier detection functionality.
-    - test_detect_and_print_outliers_iqr_no_outliers: Ensures no false positives in outlier detection.
-    - test_detect_and_print_outliers_iqr_invalid_column: Checks error handling for invalid columns.
-    - test_detect_and_print_outliers_iqr_non_numeric: Validates error handling for non-numeric data.
+    - test_detect_and_print_outliers_iqr_no_outliers: Ensures no false positives
+      in outlier detection.
+    - test_detect_and_print_outliers_iqr_invalid_column: Checks error handling
+      for invalid columns.
+    - test_detect_and_print_outliers_iqr_non_numeric: Validates error handling
+      for non-numeric data.
     - test_plot_rating_distribution: Ensures rating distribution plot creation.
-    - test_plot_enrollment_distribution: Ensures enrollment distribution plot creation.
-    - test_plot_enrollment_distribution_log_scale: Tests enrollment distribution plot with logarithmic scale.
+    - test_plot_enrollment_distribution: Ensures enrollment distribution plot
+      creation.
+    - test_plot_enrollment_distribution_log_scale: Tests enrollment distribution
+      plot with logarithmic scale.
     - test_create_custom_colormap: Verifies custom colormap creation.
     - test_plot_correlation_heatmap: Ensures correlation heatmap plot creation.
-    - test_plot_top_organizations: Validates top organizations bar chart creation.
-    - close_plots: Automatically closes all plots after each test to prevent memory leaks.
+    - close_plots: Automatically closes all plots after each test to prevent
+      memory leaks.
 """
 
-import pytest
-from pathlib import Path
+from typing import Generator
 from unittest.mock import patch, mock_open
-from matplotlib.colors import LinearSegmentedColormap
-import matplotlib.pyplot as plt
+
+import pytest
 import pandas as pd
-import seaborn as sns
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 
 from src.coursera_courses_eda.utils import (
     load_coursera_data,
@@ -52,11 +64,6 @@ from src.coursera_courses_eda.utils import (
     plot_enrollment_distribution,
     create_custom_colormap,
     plot_correlation_heatmap,
-    plot_top_organizations,
-    plot_category_distribution,
-    plot_ratings_by_category,
-    plot_organization_heatmap,
-    plot_certificate_difficulty_heatmap,
 )
 
 
@@ -71,12 +78,14 @@ def sample_csv_content() -> str:
     Example:
         >>> csv_content = sample_csv_content()
         >>> print(csv_content)
-        organization,course_rating,course_students_enrolled,course_difficulty,course_certificate_type
+        organization,course_rating,course_students_enrolled,course_difficulty,\
+        course_certificate_type
         OrgA,4.5,1.2k,Intermediate,Verified
         OrgB,4.0,3.5k,Beginner,Audit
         ...
     """
-    return """organization,course_rating,course_students_enrolled,course_difficulty,course_certificate_type
+    return """organization,course_rating,course_students_enrolled,course_difficulty,\
+course_certificate_type
 OrgA,4.5,1.2k,Intermediate,Verified
 OrgB,4.0,3.5k,Beginner,Audit
 OrgC,3.8,500,Advanced,Verified
@@ -89,7 +98,8 @@ OrgE,4.2,1.8k,Advanced,Verified
 @pytest.fixture
 def sample_dataframe() -> pd.DataFrame:
     """
-    Create a sample DataFrame for testing data processing and visualization functions.
+    Create a sample DataFrame for testing data processing and visualization
+    functions.
 
     Returns:
         pd.DataFrame: A DataFrame containing sample course data.
@@ -97,21 +107,34 @@ def sample_dataframe() -> pd.DataFrame:
     Example:
         >>> df = sample_dataframe()
         >>> print(df.head())
-          organization  course_rating course_students_enrolled course_difficulty course_certificate_type
-        0        OrgA            4.5                      1.2k      Intermediate               Verified
-        1        OrgB            4.0                      3.5k          Beginner                   Audit
+          organization  course_rating course_students_enrolled course_difficulty \
+          course_certificate_type
+        0        OrgA            4.5                      1.2k      Intermediate \
+                        Verified
+        1        OrgB            4.0                      3.5k          Beginner \
+                            Audit
         ...
     """
     data = {
-        'organization': ['OrgA', 'OrgB', 'OrgC', 'OrgA', 'OrgD', 'OrgE'],
-        'course_rating': [4.5, 4.0, 3.8, 4.7, 2.5, 4.2],
-        'course_students_enrolled': ['1.2k', '3.5k', '500', '2m', '750', '1.8k'],
-        'course_difficulty': [
-            'Intermediate', 'Beginner', 'Advanced', 'Intermediate', 'Beginner', 'Advanced'
+        "organization": ["OrgA", "OrgB", "OrgC", "OrgA", "OrgD", "OrgE"],
+        "course_rating": [4.5, 4.0, 3.8, 4.7, 2.5, 4.2],
+        "course_students_enrolled": ["1.2k", "3.5k", "500", "2m", "750", "1.8k"],
+        "course_difficulty": [
+            "Intermediate",
+            "Beginner",
+            "Advanced",
+            "Intermediate",
+            "Beginner",
+            "Advanced",
         ],
-        'course_certificate_type': [
-            'Verified', 'Audit', 'Verified', 'Audit', 'None', 'Verified'
-        ]
+        "course_certificate_type": [
+            "Verified",
+            "Audit",
+            "Verified",
+            "Audit",
+            "None",
+            "Verified",
+        ],
     }
     return pd.DataFrame(data)
 
@@ -125,7 +148,7 @@ def sample_dataframe() -> pd.DataFrame:
         ("0k", 0),
         ("3.25k", 3250),
         ("4.75m", 4750000),
-    ]
+    ],
 )
 def test_convert_students_enrolled(input_value: str, expected: int) -> None:
     """
@@ -141,10 +164,7 @@ def test_convert_students_enrolled(input_value: str, expected: int) -> None:
     assert convert_students_enrolled(input_value) == expected
 
 
-@pytest.mark.parametrize(
-    "invalid_value",
-    ["1.2b", "abc", "-1k", " "]
-)
+@pytest.mark.parametrize("invalid_value", ["1.2b", "abc", "-1k", " "])
 def test_convert_students_enrolled_invalid(invalid_value: str) -> None:
     """
     Test handling of invalid enrollment number formats.
@@ -162,13 +182,17 @@ def test_convert_students_enrolled_invalid(invalid_value: str) -> None:
 
 
 @patch("pathlib.Path.is_file", return_value=True)
-@patch("builtins.open", new_callable=mock_open, read_data="""organization,course_rating,course_students_enrolled
+@patch(
+    "builtins.open",
+    new_callable=mock_open,
+    read_data="""organization,course_rating,course_students_enrolled
 OrgA,4.5,1.2k
 OrgB,4.0,3.5k
-""")
+""",
+)
 @patch("pandas.read_csv")
 def test_load_coursera_data_default_path(
-    mock_read_csv, mock_file, mock_is_file
+    mock_read_csv, _mock_file, _mock_is_file
 ) -> None:
     """
     Test loading data from the default file path.
@@ -178,17 +202,19 @@ def test_load_coursera_data_default_path(
 
     Args:
         mock_read_csv (MagicMock): Mock for pandas.read_csv.
-        mock_file (MagicMock): Mock for built-in open function.
-        mock_is_file (MagicMock): Mock for Path.is_file.
+        _mock_file (MagicMock): Mock for built-in open function.
+        _mock_is_file (MagicMock): Mock for Path.is_file.
 
     Example:
         >>> test_load_coursera_data_default_path()
     """
-    mock_read_csv.return_value = pd.DataFrame({
-        'organization': ['OrgA', 'OrgB'],
-        'course_rating': [4.5, 4.0],
-        'course_students_enrolled': ['1.2k', '3.5k']
-    })
+    mock_read_csv.return_value = pd.DataFrame(
+        {
+            "organization": ["OrgA", "OrgB"],
+            "course_rating": [4.5, 4.0],
+            "course_students_enrolled": ["1.2k", "3.5k"],
+        }
+    )
 
     df = load_coursera_data()
 
@@ -196,14 +222,14 @@ def test_load_coursera_data_default_path(
     assert isinstance(df, pd.DataFrame)
     assert df.shape == (2, 3)
     assert list(df.columns) == [
-        'organization', 'course_rating', 'course_students_enrolled'
+        "organization",
+        "course_rating",
+        "course_students_enrolled",
     ]
 
 
 @patch("pathlib.Path.is_file", return_value=False)
-def test_load_coursera_data_file_not_found(
-    mock_is_file, sample_csv_content
-) -> None:
+def test_load_coursera_data_file_not_found(_mock_is_file, sample_csv_content) -> None: # pylint: disable=redefined-outer-name
     """
     Test proper error handling when the dataset file is not found.
 
@@ -211,7 +237,7 @@ def test_load_coursera_data_file_not_found(
     attempting to load data from a non-existent file path.
 
     Args:
-        mock_is_file (MagicMock): Mock for Path.is_file.
+        _mock_is_file (MagicMock): Mock for Path.is_file.
         sample_csv_content (str): Sample CSV content (unused here).
 
     Example:
@@ -226,7 +252,7 @@ def test_load_coursera_data_file_not_found(
 @patch("pandas.read_csv", side_effect=Exception("Read error"))
 @patch("pathlib.Path.is_file", return_value=True)
 def test_load_coursera_data_read_exception(
-    mock_is_file, mock_read_csv, sample_csv_content
+    _mock_is_file, _mock_read_csv, sample_csv_content # pylint: disable=redefined-outer-name
 ) -> None:
     """
     Test handling of exceptions during data loading.
@@ -235,7 +261,7 @@ def test_load_coursera_data_read_exception(
     is propagated with additional context.
 
     Args:
-        mock_is_file (MagicMock): Mock for Path.is_file.
+        _mock_is_file (MagicMock): Mock for Path.is_file.
         mock_read_csv (MagicMock): Mock for pandas.read_csv to raise an exception.
         sample_csv_content (str): Sample CSV content.
 
@@ -249,9 +275,7 @@ def test_load_coursera_data_read_exception(
         assert "Attempted path" in str(exc_info.value)
 
 
-def test_detect_and_print_outliers_iqr(
-    capsys, sample_dataframe: pd.DataFrame
-) -> None:
+def test_detect_and_print_outliers_iqr(capsys, sample_dataframe: pd.DataFrame) -> None: # pylint: disable=redefined-outer-name
     """
     Test outlier detection with a known outlier.
 
@@ -266,13 +290,13 @@ def test_detect_and_print_outliers_iqr(
         >>> test_detect_and_print_outliers_iqr(capsys, sample_dataframe)
     """
     df = sample_dataframe.copy()
-    df.loc[len(df)] = ['OrgF', 5.0, '10m', 'Advanced', 'Verified']
+    df.loc[len(df)] = ["OrgF", 5.0, "10m", "Advanced", "Verified"]
 
-    df['course_students_enrolled'] = df['course_students_enrolled'].apply(
+    df["course_students_enrolled"] = df["course_students_enrolled"].apply(
         convert_students_enrolled
     )
 
-    detect_and_print_outliers_iqr(df, 'course_students_enrolled')
+    detect_and_print_outliers_iqr(df, "course_students_enrolled")
     captured = capsys.readouterr()
 
     assert "Potential outliers for 'course_students_enrolled':" in captured.out
@@ -281,7 +305,7 @@ def test_detect_and_print_outliers_iqr(
 
 
 def test_detect_and_print_outliers_iqr_no_outliers(
-    capsys, sample_dataframe: pd.DataFrame
+    capsys, sample_dataframe: pd.DataFrame # pylint: disable=redefined-outer-name
 ) -> None:
     """
     Test outlier detection when no outliers are present.
@@ -297,18 +321,18 @@ def test_detect_and_print_outliers_iqr_no_outliers(
         >>> test_detect_and_print_outliers_iqr_no_outliers(capsys, sample_dataframe)
     """
     df = sample_dataframe.copy()
-    df['course_students_enrolled'] = df['course_students_enrolled'].apply(
+    df["course_students_enrolled"] = df["course_students_enrolled"].apply(
         convert_students_enrolled
     )
 
-    detect_and_print_outliers_iqr(df, 'course_students_enrolled')
+    detect_and_print_outliers_iqr(df, "course_students_enrolled")
     captured = capsys.readouterr()
 
     assert "Potential outliers for 'course_students_enrolled':" in captured.out
 
 
 def test_detect_and_print_outliers_iqr_invalid_column(
-    sample_dataframe: pd.DataFrame
+    sample_dataframe: pd.DataFrame, # pylint: disable=redefined-outer-name
 ) -> None:
     """
     Test error handling for outlier detection on a non-existent column.
@@ -323,11 +347,11 @@ def test_detect_and_print_outliers_iqr_invalid_column(
         >>> test_detect_and_print_outliers_iqr_invalid_column(sample_dataframe)
     """
     with pytest.raises(KeyError):
-        detect_and_print_outliers_iqr(sample_dataframe, 'non_existent_column')
+        detect_and_print_outliers_iqr(sample_dataframe, "non_existent_column")
 
 
 def test_detect_and_print_outliers_iqr_non_numeric(
-    sample_dataframe: pd.DataFrame
+    sample_dataframe: pd.DataFrame, # pylint: disable=redefined-outer-name
 ) -> None:
     """
     Test error handling for outlier detection on a non-numeric column.
@@ -342,10 +366,10 @@ def test_detect_and_print_outliers_iqr_non_numeric(
         >>> test_detect_and_print_outliers_iqr_non_numeric(sample_dataframe)
     """
     with pytest.raises(TypeError):
-        detect_and_print_outliers_iqr(sample_dataframe, 'organization')
+        detect_and_print_outliers_iqr(sample_dataframe, "organization")
 
 
-def test_plot_rating_distribution(sample_dataframe: pd.DataFrame) -> None:
+def test_plot_rating_distribution(sample_dataframe: pd.DataFrame) -> None: # pylint: disable=redefined-outer-name
     """
     Test creation of the rating distribution histogram plot.
 
@@ -358,7 +382,7 @@ def test_plot_rating_distribution(sample_dataframe: pd.DataFrame) -> None:
     Example:
         >>> test_plot_rating_distribution(sample_dataframe)
     """
-    fig, ax = plot_rating_distribution(sample_dataframe['course_rating'])
+    fig, ax = plot_rating_distribution(sample_dataframe["course_rating"])
 
     assert isinstance(fig, plt.Figure)
     assert isinstance(ax, plt.Axes)
@@ -367,7 +391,7 @@ def test_plot_rating_distribution(sample_dataframe: pd.DataFrame) -> None:
     assert ax.get_ylabel() == "Frequency"
 
 
-def test_plot_enrollment_distribution(sample_dataframe: pd.DataFrame) -> None:
+def test_plot_enrollment_distribution(sample_dataframe: pd.DataFrame) -> None: # pylint: disable=redefined-outer-name
     """
     Test creation of the enrollment distribution histogram plot.
 
@@ -380,7 +404,7 @@ def test_plot_enrollment_distribution(sample_dataframe: pd.DataFrame) -> None:
     Example:
         >>> test_plot_enrollment_distribution(sample_dataframe)
     """
-    enrollments = sample_dataframe['course_students_enrolled'].apply(
+    enrollments = sample_dataframe["course_students_enrolled"].apply(
         convert_students_enrolled
     )
     fig, ax = plot_enrollment_distribution(enrollments)
@@ -392,9 +416,7 @@ def test_plot_enrollment_distribution(sample_dataframe: pd.DataFrame) -> None:
     assert ax.get_ylabel() == "Frequency"
 
 
-def test_plot_enrollment_distribution_log_scale(
-    sample_dataframe: pd.DataFrame
-) -> None:
+def test_plot_enrollment_distribution_log_scale(sample_dataframe: pd.DataFrame) -> None: # pylint: disable=redefined-outer-name
     """
     Test creation of the enrollment distribution plot with logarithmic scale.
 
@@ -407,7 +429,7 @@ def test_plot_enrollment_distribution_log_scale(
     Example:
         >>> test_plot_enrollment_distribution_log_scale(sample_dataframe)
     """
-    enrollments = sample_dataframe['course_students_enrolled'].apply(
+    enrollments = sample_dataframe["course_students_enrolled"].apply(
         convert_students_enrolled
     )
     fig, ax = plot_enrollment_distribution(enrollments, log_scale=True)
@@ -433,7 +455,7 @@ def test_create_custom_colormap() -> None:
     assert cmap.N > 0
 
 
-def test_plot_correlation_heatmap(sample_dataframe: pd.DataFrame) -> None:
+def test_plot_correlation_heatmap(sample_dataframe: pd.DataFrame) -> None: # pylint: disable=redefined-outer-name
     """
     Test creation of the correlation heatmap plot.
 
@@ -447,16 +469,16 @@ def test_plot_correlation_heatmap(sample_dataframe: pd.DataFrame) -> None:
         >>> test_plot_correlation_heatmap(sample_dataframe)
     """
     df_numeric = sample_dataframe.copy()
-    df_numeric['course_students_enrolled'] = df_numeric['course_students_enrolled'].apply(
-        convert_students_enrolled
+    df_numeric["course_students_enrolled"] = df_numeric[
+        "course_students_enrolled"
+    ].apply(convert_students_enrolled)
+    df_numeric["course_difficulty_num"] = (
+        df_numeric["course_difficulty"].astype("category").cat.codes
     )
-    df_numeric['course_difficulty_num'] = df_numeric['course_difficulty'].astype(
-        'category'
-    ).cat.codes
 
     fig, ax = plot_correlation_heatmap(
         df_numeric,
-        columns=['course_rating', 'course_students_enrolled', 'course_difficulty_num']
+        columns=["course_rating", "course_students_enrolled", "course_difficulty_num"],
     )
 
     assert isinstance(fig, plt.Figure)
@@ -465,7 +487,7 @@ def test_plot_correlation_heatmap(sample_dataframe: pd.DataFrame) -> None:
 
 
 @pytest.fixture(autouse=True)
-def close_plots() -> None:
+def close_plots() -> Generator[None, None, None]:
     """
     Automatically close all matplotlib plots after each test.
 
@@ -476,4 +498,4 @@ def close_plots() -> None:
         This fixture is applied automatically to all tests in the module.
     """
     yield
-    plt.close('all')
+    plt.close("all")
